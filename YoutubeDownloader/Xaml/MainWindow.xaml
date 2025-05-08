@@ -1,0 +1,11 @@
+﻿<Window xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        x:Class="YoutubeDownloader.MainWindow"
+        Title="Youtube downloader" Height="800" Width="1000"
+        MinimumHeight="100" MinimumWidth="100">
+    <Window.TitleBar>
+        <TitleBar x:DataType="Window" InputTransparent="True"
+                  Title="{Binding Source={RelativeSource AncestorType={x:Type Window}}, Path=Title}"
+                  Icon="favicon.ico" />
+    </Window.TitleBar>
+</Window>

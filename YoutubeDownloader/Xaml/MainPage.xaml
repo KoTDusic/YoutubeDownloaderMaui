@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:youtubeDownloader="using:YoutubeDownloader"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             x:Class="YoutubeDownloader.MainPage"
+             x:DataType="youtubeDownloader:MainViewModel">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <material:EditorField Text="{Binding Uri, Mode=TwoWay}"
+                                  Margin="0,0,5,0" />
+            <Button Grid.Column="1" StyleClass="ElevatedButton" CornerRadius="3" Text="Search" TextColor="Black"
+                    Command="{Binding RunSearchCommand}" />
+        </Grid>
+        <Image Grid.Row="1" Aspect="AspectFit" MaximumHeightRequest="200"
+               HorizontalOptions="Center" VerticalOptions="Start" Margin="0,5,0,0">
+            <Image.Source>
+                <UriImageSource Uri="{Binding Thumbnail}"
+                                CachingEnabled="False" />
+            </Image.Source>
+        </Image>
+        <Label Grid.Row="2" Text="{Binding Title}"
+               HorizontalOptions="Center" VerticalOptions="Start" FontAttributes="Bold" />
+
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Text="Video Formats:" Margin="5" FontAttributes="Bold" />
+            <CollectionView Grid.Row="1" Grid.Column="0"
+                            ItemsSource="{Binding VideoFormats}"
+                            ItemSizingStrategy="MeasureAllItems">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="youtubeDownloader:FormatInfoViewModel">
+                        <Button Command="{Binding SelectButtonCommand}">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Background" Value="#D0BCFF" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                            <Button.Text>
+                                <MultiBinding StringFormat="{}[{0}-{1}] {2} ({3})">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="Extension" />
+                                        <Binding Path="VideoCodec" />
+                                        <Binding Path="Resolution" />
+                                        <Binding Path="Format" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </Button.Text>
+                        </Button>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label Grid.Row="0" Grid.Column="1" Text="Audio Formats:" Margin="5" FontAttributes="Bold" />
+            <CollectionView Grid.Row="1" Grid.Column="1"
+                            ItemsSource="{Binding AudioFormats}"
+                            ItemSizingStrategy="MeasureAllItems">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="youtubeDownloader:FormatInfoViewModel">
+                        <Button Command="{Binding SelectButtonCommand}">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Background" Value="#D0BCFF" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                            <Button.Text>
+                                <MultiBinding StringFormat="{}[{0}-{1}] {2} ({3})">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="Extension" />
+                                        <Binding Path="AudioCodec" />
+                                        <Binding Path="Resolution" />
+                                        <Binding Path="Format" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </Button.Text>
+                        </Button>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <Button Grid.Row="4" StyleClass="ElevatedButton" CornerRadius="3" Text="Save" TextColor="Black"
+                Command="{Binding SaveCommand}" Margin="5" />
+        <ProgressBar Grid.Row="5" Progress="{Binding Progress}" MinimumHeightRequest="10" />
+    </Grid>
+
+</ContentPage>
